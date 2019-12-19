@@ -30,7 +30,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
-
+#include <math.h>
 #include "iso-3dfd.h"
 #include "tools.h"
 
@@ -56,8 +56,9 @@ void initialize(float* ptr_prev, float* ptr_next, float* ptr_vel, Parameters* p,
         for(int i=0; i<p->n3; i++){
                 for(int j=0; j<p->n2; j++){
                         for(int k=0; k<p->n1; k++){
-                                ptr_prev[i*p->n2*p->n1 + j*p->n1 + k] = 0.0f;
-                                ptr_next[i*p->n2*p->n1 + j*p->n1 + k] = 0.0f;
+                                ptr_prev[i*p->n2*p->n1 + j*p->n1 + k] = sin(i*100+j*10+k);
+                                //ptr_prev[i*p->n2*p->n1+j*p->n1+k]=sin(i*100+j*10+k);
+				ptr_next[i*p->n2*p->n1 + j*p->n1 + k] = cos(i*100+j*10+k);
                                 ptr_vel[i*p->n2*p->n1 + j*p->n1 + k] = 2250000.0f*DT*DT;//Integration of the v² and dt² here
                         }
                 }
@@ -75,7 +76,20 @@ void initialize(float* ptr_prev, float* ptr_next, float* ptr_vel, Parameters* p,
                 val *= 10;
        }
 }
+void outputMatrix(float* prt_vel,Parameters* p){
+    freopen("matrix.out","w",stdout);
+    for (int i=0;i<p->n1;i++){
+	for(int j=0;j<p->n2;j++){
+	    for(int k=0;k<p->n3;k++){
+		printf("%f ",prt_vel[i*p->n1*p->n2+j*p->n2+p->n3]);
+	    }
+	    printf("\n");
+	}
+	printf("\n");
+    }
+    fclose(stdout);
 
+}
 int main(int argc, char** argv)
 {
 	// Defaults
@@ -238,6 +252,7 @@ int main(int argc, char** argv)
         initialize(p.prev, p_ref, p.vel, &p, nbytes);
 
         reference_implementation( p_ref, p.prev, coeff, p.vel, p.n1, p.n2, p.n3, HALF_LENGTH );
+	outputMatrix(p.vel,&p);
         if( within_epsilon( p.next, p_ref, p.n1, p.n2, p.n3, HALF_LENGTH, 0, 0.0001f ) ) {
                 printf("  Result within epsilon\n");
                 printf("  TEST PASSED!\n");
