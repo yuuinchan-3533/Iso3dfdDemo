@@ -77,7 +77,7 @@ void reference_implementation(float *next, float *prev, float *coeff,
 	  }
 	  float temp=2.0f* prev[iz*n1n2 + iy*n1 +ix] - next[iz*n1n2 + iy*n1 +ix] + res * vel[iz*n1n2 + iy*n1 +ix];
 	  next[iz*n1n2 + iy*n1 +ix] = 2.0f* prev[iz*n1n2 + iy*n1 +ix] - next[iz*n1n2 + iy*n1 +ix] + res * vel[iz*n1n2 + iy*n1 +ix];
-	  //printf("%f,%f,%f,%f\n",prev[iz*n1n2+iy*n1+ix],next[iz*n1n2+iy*n1+ix],coeff[0],vel[iz*n1n2+iy*n1+ix]);
+	  printf("%f\n",temp);
 	}
       }
     }

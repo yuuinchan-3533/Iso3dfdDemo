@@ -69,7 +69,7 @@ void initialize(float *ptr_prev, float *ptr_next, float *ptr_vel, Parameters *p,
 		}
 	}
 	//Then we add a source
-	float val = 1.f;
+	/*float val = 1.f;
 	for (int s = 5; s >= 0; s--)
 	{
 		for (int i = p->n3 / 2 - s; i < p->n3 / 2 + s; i++)
@@ -83,7 +83,7 @@ void initialize(float *ptr_prev, float *ptr_next, float *ptr_vel, Parameters *p,
 			}
 		}
 		val *= 10;
-	}
+	}*/
 }
 void outputMatrix(float *prt_vel, Parameters *p)
 {
@@ -277,8 +277,8 @@ int main(int argc, char **argv)
 	}
 
 	initialize(p.prev, p_ref, p.vel, &p, nbytes);
-
-	reference_implementation(p_ref, p.prev, coeff, p.vel, p.n1, p.n2, p.n3, HALF_LENGTH);
+	for(int step=0;step<2;step++){
+	reference_implementation(p_ref, p.prev, coeff, p.vel, p.n1, p.n2, p.n3, HALF_LENGTH);}
 	outputMatrix(p.next, &p);
 	if (within_epsilon(p.next, p_ref, p.n1, p.n2, p.n3, HALF_LENGTH, 0, 0.0001f))
 	{
