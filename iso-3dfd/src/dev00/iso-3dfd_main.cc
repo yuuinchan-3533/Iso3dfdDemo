@@ -61,10 +61,12 @@ void initialize(float *ptr_prev, float *ptr_next, float *ptr_vel, Parameters *p,
 		{
 			for (int k = 0; k < p->n1; k++)
 			{
+				int key=i * p->n2 * p->n1 + j * p->n1 + k;
 				ptr_prev[i * p->n2 * p->n1 + j * p->n1 + k] = sin(i * 100 + j * 10 + k);
 				//ptr_prev[i*p->n2*p->n1+j*p->n1+k]=sin(i*100+j*10+k);
 				ptr_next[i * p->n2 * p->n1 + j * p->n1 + k] = cos(i * 100 + j * 10 + k);
 				ptr_vel[i * p->n2 * p->n1 + j * p->n1 + k] = 2250000.0f * DT * DT; //Integration of the v² and dt² here
+				printf("%f %f %f\n",ptr_prev[key],ptr_vel[key],ptr_next[key]);
 			}
 		}
 	}
@@ -87,20 +89,20 @@ void initialize(float *ptr_prev, float *ptr_next, float *ptr_vel, Parameters *p,
 }
 void outputMatrix(float *prt_vel, Parameters *p)
 {
-	freopen("matrix.out", "w", stdout);
+	//freopen("matrix.out", "w", stdout);
 	for (int i = 0; i < p->n1; i++)
 	{
 		for (int j = 0; j < p->n2; j++)
 		{
 			for (int k = 0; k < p->n3; k++)
 			{	//printf("%d %d %d:",i,j,k);
-				printf("%f ", prt_vel[i * p->n1 * p->n2 + j * p->n2 + p->n3]);
+				//printf("%f ", prt_vel[i * p->n1 * p->n2 + j * p->n2 + p->n3]);
 			}
-			printf("\n");
+			//printf("\n");
 		}
-		printf("\n");
+		//printf("\n");
 	}
-	fclose(stdout);
+	//fclose(stdout);
 }
 int main(int argc, char **argv)
 {
@@ -119,7 +121,7 @@ int main(int argc, char **argv)
 
 	if ((argc > 1) && (argc < 4))
 	{
-		printf(" usage: [n1 n2 n3] [# threads] [# iterations] [thread block n1] [thread block n2] [thread block n3]\n");
+		//printf(" usage: [n1 n2 n3] [# threads] [# iterations] [thread block n1] [thread block n2] [thread block n3]\n");
 		exit(1);
 	}
 	// [n1 n2 n3]
@@ -164,19 +166,19 @@ int main(int argc, char **argv)
 	// Make sure n1 and n1_Tblock are multiple of 16 (to support 64B alignment)
 	if ((p.n1 % 16) != 0)
 	{
-		printf("Parameter n1=%d must be a multiple of 16\n", p.n1);
+		//printf("Parameter n1=%d must be a multiple of 16\n", p.n1);
 		exit(1);
 	}
 	if ((p.n1_Tblock % 16) != 0)
 	{
-		printf("Parameter n1_Tblock=%d must be a multiple of 16\n", p.n1_Tblock);
+		//printf("Parameter n1_Tblock=%d must be a multiple of 16\n", p.n1_Tblock);
 		exit(1);
 	}
 	// Make sure nreps is rouded up to next even number (to support swap)
 	p.nreps = ((p.nreps + 1) / 2) * 2;
 
-	printf("n1=%d n2=%d n3=%d nreps=%d num_threads=%d HALF_LENGTH=%d\n", p.n1, p.n2, p.n3, p.nreps, p.num_threads, HALF_LENGTH);
-	printf("n1_thrd_block=%d n2_thrd_block=%d n3_thrd_block=%d\n", p.n1_Tblock, p.n2_Tblock, p.n3_Tblock);
+	//printf("n1=%d n2=%d n3=%d nreps=%d num_threads=%d HALF_LENGTH=%d\n", p.n1, p.n2, p.n3, p.nreps, p.num_threads, HALF_LENGTH);
+	//printf("n1_thrd_block=%d n2_thrd_block=%d n3_thrd_block=%d\n", p.n1_Tblock, p.n2_Tblock, p.n3_Tblock);
 
 #if (HALF_LENGTH == 4)
 	float coeff[HALF_LENGTH + 1] = {
@@ -218,7 +220,7 @@ int main(int argc, char **argv)
 	size_t nsize = p.n1 * p.n2 * p.n3;
 	size_t nbytes = nsize * sizeof(float);
 
-	printf("allocating prev, next and vel: total %g Mbytes\n", (3.0 * (nbytes + 16)) / (1024 * 1024));
+	//printf("allocating prev, next and vel: total %g Mbytes\n", (3.0 * (nbytes + 16)) / (1024 * 1024));
 	fflush(NULL);
 
 	float *prev_base = (float *)_mm_malloc((nsize + 16 + MASK_ALLOC_OFFSET(0)) * sizeof(float), CACHELINE_BYTES);
@@ -254,13 +256,13 @@ int main(int argc, char **argv)
 	throughput_mpoints = ((p.n1 - 2 * HALF_LENGTH) * (p.n2 - 2 * HALF_LENGTH) * (p.n3 - 2 * HALF_LENGTH)) / (normalized_time * 1e6f);
 	mflops = (7.0f * HALF_LENGTH + 5.0f) * throughput_mpoints;
 
-	printf("-------------------------------\n");
-	printf("time:       %8.2f sec\n", elapsed_time);
-	printf("throughput: %8.2f MPoints/s\n", throughput_mpoints);
-	printf("flops:      %8.2f GFlops\n", mflops / 1e3f);
+	//printf("-------------------------------\n");
+	//printf("time:       %8.2f sec\n", elapsed_time);
+	//printf("throughput: %8.2f MPoints/s\n", throughput_mpoints);
+	//printf("flops:      %8.2f GFlops\n", mflops / 1e3f);
 #if defined(VERIFY_RESULTS)
-	printf("\n-------------------------------\n");
-	printf("comparing one iteration to reference implementation result...\n");
+	//printf("\n-------------------------------\n");
+	//printf("comparing one iteration to reference implementation result...\n");
 
 	initialize(p.prev, p.next, p.vel, &p, nbytes);
 
@@ -270,8 +272,8 @@ int main(int argc, char **argv)
 	float *p_ref = (float *)malloc(p.n1 * p.n2 * p.n3 * sizeof(float));
 	if (p_ref == NULL)
 	{
-		printf("couldn't allocate memory for p_ref\n");
-		printf("  TEST FAILED!\n");
+		//printf("couldn't allocate memory for p_ref\n");
+		//printf("  TEST FAILED!\n");
 		fflush(NULL);
 		exit(-1);
 	}
@@ -282,13 +284,13 @@ int main(int argc, char **argv)
 	outputMatrix(p.next, &p);
 	if (within_epsilon(p.next, p_ref, p.n1, p.n2, p.n3, HALF_LENGTH, 0, 0.0001f))
 	{
-		printf("  Result within epsilon\n");
-		printf("  TEST PASSED!\n");
+		//printf("  Result within epsilon\n");
+		//printf("  TEST PASSED!\n");
 	}
 	else
 	{
-		printf("  Incorrect result\n");
-		printf("  TEST FAILED!\n");
+		//printf("  Incorrect result\n");
+		//printf("  TEST FAILED!\n");
 	}
 	free(p_ref);
 
