@@ -93,7 +93,7 @@ void outputMatrix(float *prt_vel, Parameters *p)
 		for (int j = 0; j < p->n2; j++)
 		{
 			for (int k = 0; k < p->n3; k++)
-			{
+			{	//printf("%d %d %d:",i,j,k);
 				printf("%f ", prt_vel[i * p->n1 * p->n2 + j * p->n2 + p->n3]);
 			}
 			printf("\n");

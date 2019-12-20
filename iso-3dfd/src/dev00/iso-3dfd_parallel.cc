@@ -36,7 +36,7 @@ void iso_3dfd_it(float *ptr_next,  float *ptr_prev,  float *ptr_vel,   float *co
 	      const int n1, const int n2, const int n3, const int num_threads,
 	      const int n1_Tblock, const int n2_Tblock, const int n3_Tblock){
 	int dimn1n2 = n1*n2;//This value will be used later
-	#pragma omp parallel for OMP_SCHEDULE OMP_N_THREADS collapse(2) default(shared)	
+#pragma omp parallel for OMP_SCHEDULE OMP_N_THREADS collapse(2) default(shared)	
 	for(int iz=0; iz<n3; iz++) {
 		for(int iy=0; iy<n2; iy++) {
 			for(int ix=0; ix<n1; ix++) {
