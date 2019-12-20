@@ -281,7 +281,7 @@ int main(int argc, char **argv)
 	initialize(p.prev, p_ref, p.vel, &p, nbytes);
 	for(int step=0;step<2;step++){
 	reference_implementation(p_ref, p.prev, coeff, p.vel, p.n1, p.n2, p.n3, HALF_LENGTH);}
-	//outputMatrix(p.next, &p);
+	outputMatrix(p.next, &p);
 	if (within_epsilon(p.next, p_ref, p.n1, p.n2, p.n3, HALF_LENGTH, 0, 0.0001f))
 	{
 		//printf("  Result within epsilon\n");
