@@ -62,9 +62,9 @@ void initialize(float *ptr_prev, float *ptr_next, float *ptr_vel, Parameters *p,
 			for (int k = 0; k < p->n1; k++)
 			{
 				int key=i * p->n2 * p->n1 + j * p->n1 + k;
-				ptr_prev[i * p->n2 * p->n1 + j * p->n1 + k] = sin(i * 100 + j * 10 + k);
+				ptr_prev[i * p->n2 * p->n1 + j * p->n1 + k] = 0.5;
 				//ptr_prev[i*p->n2*p->n1+j*p->n1+k]=sin(i*100+j*10+k);
-				ptr_next[i * p->n2 * p->n1 + j * p->n1 + k] = cos(i * 100 + j * 10 + k);
+				ptr_next[i * p->n2 * p->n1 + j * p->n1 + k] = 0.8;
 				ptr_vel[i * p->n2 * p->n1 + j * p->n1 + k] = 2250000.0f * DT * DT; //Integration of the v² and dt² here
 				printf("%f %f %f\n",ptr_prev[key],ptr_vel[key],ptr_next[key]);
 			}
@@ -281,7 +281,7 @@ int main(int argc, char **argv)
 	initialize(p.prev, p_ref, p.vel, &p, nbytes);
 	for(int step=0;step<2;step++){
 	reference_implementation(p_ref, p.prev, coeff, p.vel, p.n1, p.n2, p.n3, HALF_LENGTH);}
-	outputMatrix(p.next, &p);
+	//outputMatrix(p.next, &p);
 	if (within_epsilon(p.next, p_ref, p.n1, p.n2, p.n3, HALF_LENGTH, 0, 0.0001f))
 	{
 		//printf("  Result within epsilon\n");
