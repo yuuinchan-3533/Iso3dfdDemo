@@ -77,7 +77,7 @@ void reference_implementation(float *next, float *prev, float *coeff,
 	  }
 	  float temp=2.0f* prev[iz*n1n2 + iy*n1 +ix] - next[iz*n1n2 + iy*n1 +ix] + res * vel[iz*n1n2 + iy*n1 +ix];
 	  next[iz*n1n2 + iy*n1 +ix] = 2.0f* prev[iz*n1n2 + iy*n1 +ix] - next[iz*n1n2 + iy*n1 +ix] + res * vel[iz*n1n2 + iy*n1 +ix];
-	  printf("%f\n",temp);
+	 // printf("%f\n",temp);
 	}
       }
     }
@@ -93,7 +93,7 @@ bool within_epsilon(float* output, float *reference, const int dimx, const int d
       for(int ix=0; ix<dimx; ix++) {
 	if( ix>=radius && ix<(dimx-radius) && iy>=radius && iy<(dimy-radius) && iz>=radius && iz<(dimz-radius+zadjust) ) {
 	  float difference = fabsf( *reference - *output);
-	  printf("%f,%f,%f\n",*reference,*output,difference);
+	  //printf("%f,%f,%f\n",*reference,*output,difference);
 	  if( difference > delta ) {
 	    retval = false;
 	    printf(" ERROR: (%d,%d,%d)\t%.2f instead of %.2f\n", ix,iy,iz, *output, *reference);

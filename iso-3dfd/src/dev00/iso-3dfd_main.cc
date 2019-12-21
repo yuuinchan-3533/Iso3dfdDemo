@@ -66,7 +66,7 @@ void initialize(float *ptr_prev, float *ptr_next, float *ptr_vel, Parameters *p,
 				//ptr_prev[i*p->n2*p->n1+j*p->n1+k]=sin(i*100+j*10+k);
 				ptr_next[i * p->n2 * p->n1 + j * p->n1 + k] = 0.8;
 				ptr_vel[i * p->n2 * p->n1 + j * p->n1 + k] = 2250000.0f * DT * DT; //Integration of the v² and dt² here
-				printf("%f %f %f\n",ptr_prev[key],ptr_vel[key],ptr_next[key]);
+				//printf("%f %f %f\n",ptr_prev[key],ptr_vel[key],ptr_next[key]);
 			}
 		}
 	}
@@ -96,11 +96,11 @@ void outputMatrix(float *prt_vel, Parameters *p)
 		{
 			for (int k = 0; k < p->n3; k++)
 			{	//printf("%d %d %d:",i,j,k);
-				//printf("%f ", prt_vel[i * p->n1 * p->n2 + j * p->n2 + p->n3]);
+				printf("%f ", prt_vel[i * p->n1 * p->n2 + j * p->n2 + p->n3]);
 			}
-			//printf("\n");
+			printf("\n");
 		}
-		//printf("\n");
+		printf("\n");
 	}
 	//fclose(stdout);
 }
