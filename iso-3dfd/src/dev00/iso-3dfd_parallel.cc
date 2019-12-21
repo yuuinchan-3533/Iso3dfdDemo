@@ -51,6 +51,8 @@ void iso_3dfd_it(float *ptr_next,  float *ptr_prev,  float *ptr_vel,   float *co
 						value += coeff[ir] * (ptr_prev[offset + ir*dimn1n2] + ptr_prev[offset - ir*dimn1n2]); // in front / behind
 					}
 					ptr_next[offset] = 2.0f* ptr_prev[offset] - ptr_next[offset] + value*ptr_vel[offset];
+                    printf("(%d %d %d):next:%f prev:%f res:%f vel:%f \n",ix,iy,iz,ptr_next[offset],ptr_prev[offset],value,ptr_vel[offset]);
+
 				}
 			}
 		}
